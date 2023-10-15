@@ -58,7 +58,9 @@ while true; do
             touch $DIR/.plug
             notify-send -i "$HOME/.local/share/dunst/power-plugin.png" -u normal "Battery" "Plugin not charging.." -t 5000 --replace-id=555 
         fi
-    elif [ "$plug" = "no" ]; then
+    fi
+    
+    if [ "$plug" = "no" ]; then
         if [ -f "$DIR/.plug" ]; then
             rm -rf $DIR/.plug
             notify-send -i "$HOME/.local/share/dunst/power-plugin.png" -u normal "Battery" "Plugin Disconnected" -t 5000 --replace-id=555 
