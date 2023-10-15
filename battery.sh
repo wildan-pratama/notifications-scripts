@@ -55,8 +55,10 @@ while true; do
     }
 
     if [ "$plug" = "yes" ]; then
-        if [ "$battery_percent" -ge "21" ]; then
-            unlow
+        if [ -n "$battery_percent" ]; then
+            if [ "$battery_percent" -ge "21" ]; then
+                unlow
+            fi
         fi
         if [ ! -f "$DIR/.plug" ]; then
             touch $DIR/.plug
@@ -72,8 +74,10 @@ while true; do
     fi
             
     if [ "$charging" = "yes" ]; then
-        if [ "$battery_percent" -ge "21" ]; then
-            unlow
+        if [ -n "$battery_percent" ]; then
+            if [ "$battery_percent" -ge "21" ]; then
+                unlow
+            fi
         fi
         if [ ! -f "$DIR/.charging" ]; then
             touch $DIR/.charging
