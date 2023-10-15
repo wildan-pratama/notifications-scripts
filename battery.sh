@@ -35,7 +35,6 @@ while true; do
 
     plug="no"
     getinfo
-    battery_percent="15"
 
     unlow () {
         if [ -f "$DIR/.low" ]; then
