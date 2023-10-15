@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
-low="20"
+low="21"
 
 # Check if 'acpi' or 'upower' command is available
 getinfo () {
@@ -75,31 +75,40 @@ while true; do
         if [ -f "$DIR/.charging" ]; then
             rm -rf $DIR/.charging
             notify-send -i "$HOME/.local/share/dunst/charging.png" -u normal "Battery" "Charging Disconnected" -t 5000 --replace-id=555 
-        elif [ "$battery_percent" = "$low" ]; then
+        fi
+    fi
+    
+
+    if [ -n "$battery_percent" ]; then
+        if [ "$battery_percent" -lt "$low" ]; then
             if [ ! -f "$DIR/.low" ]; then
                 touch $DIR/.low
                 notifylow
             fi
-        elif [ "$battery_percent" = "15" ]; then
+        fi
+        
+        if [ "$battery_percent" = "15" ]; then
             if [ ! -f "$DIR/.15" ]; then
                 touch $DIR/.15
                 notifylow
             fi
-        elif [ "$battery_percent" = "10" ]; then
+        fi
+        
+        if [ "$battery_percent" = "10" ]; then
             if [ ! -f "$DIR/.10" ]; then
                 touch $DIR/.10
                 notifylow
             fi
-        elif [ "$battery_percent" = "5" ]; then
+        fi
+        
+        if [ "$battery_percent" = "5" ]; then
             if [ ! -f "$DIR/.5" ]; then
                 touch $DIR/.5
                 notifylow
             fi
         fi
-    fi
 
-    if [ -n "$battery_percent" ]; then
-        if [ "$battery_percent" -ge "$low" ]; then
+        if [ "$battery_percent" = "$low" ]; then
             unlow
         fi
     

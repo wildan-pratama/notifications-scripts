@@ -8,14 +8,14 @@ send_notification () {
 	DIR=$(dirname "$0")
 	brightness=$(get_brightness)
 	bar=$(seq -s "─" $(($brightness/5)) | sed 's/[0-9]//g')
-	
-	if [ "$brightness" -lt "20" ]; then
+  	
+	if [ "$brightness" -lt "21" ]; then
         icon_name="$HOME/.local/share/dunst/brightness-20.png"
-    elif [ "$volume" -lt "40" ]; then
+    elif [ "$brightness" -lt "41" ]; then
         icon_name="$HOME/.local/share/dunst/brightness-40.png"
-    elif [ "$volume" -lt "60" ]; then
+    elif [ "$brightness" -lt "61" ]; then
         icon_name="$HOME/.local/share/dunst/brightness-60.png"
-    elif [ "$volume" -lt "80" ]; then
+    elif [ "$brightness" -lt "81" ]; then
         icon_name="$HOME/.local/share/dunst/brightness-80.png"
     else
         icon_name="$HOME/.local/share/dunst/brightness-100.png"
