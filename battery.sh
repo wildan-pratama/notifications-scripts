@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
-low="21"
 
 # Check if 'acpi' or 'upower' command is available
 getinfo () {
@@ -36,15 +35,19 @@ while true; do
 
     plug="no"
     getinfo
+    battery_percent="15"
 
     unlow () {
         if [ -f "$DIR/.low" ]; then
             rm -rf $DIR/.low
-        elif [ -f "$DIR/.15" ]; then
+        fi
+        if [ -f "$DIR/.15" ]; then
             rm -rf $DIR/.15
-        elif [ -f "$DIR/.10" ]; then
+        fi
+        if [ -f "$DIR/.10" ]; then
             rm -rf $DIR/.10
-        elif [ -f "$DIR/.5" ]; then
+        fi
+        if [ -f "$DIR/.5" ]; then
             rm -rf $DIR/.5
         fi
     }
@@ -53,7 +56,9 @@ while true; do
     }
 
     if [ "$plug" = "yes" ]; then
-        unlow
+        if [ "$battery_percent" -ge "21" ]; then
+            unlow
+        fi
         if [ ! -f "$DIR/.plug" ]; then
             touch $DIR/.plug
             notify-send -i "$HOME/.local/share/dunst/power-plugin.png" -u normal "Battery" "Plugin not charging.." -t 5000 --replace-id=555 
@@ -68,12 +73,16 @@ while true; do
     fi
             
     if [ "$charging" = "yes" ]; then
-        unlow
+        if [ "$battery_percent" -ge "21" ]; then
+            unlow
+        fi
         if [ ! -f "$DIR/.charging" ]; then
             touch $DIR/.charging
             notify-send -i "$HOME/.local/share/dunst/charging.png" -u normal "Battery" "Charging Connected ($battery_percent%)" -t 5000 --replace-id=555 
         fi    
-	elif [ "$charging" = "no" ]; then
+	fi
+    
+    if [ "$charging" = "no" ]; then
         if [ -f "$DIR/.charging" ]; then
             rm -rf $DIR/.charging
             notify-send -i "$HOME/.local/share/dunst/charging.png" -u normal "Battery" "Charging Disconnected" -t 5000 --replace-id=555 
@@ -82,7 +91,7 @@ while true; do
     
 
     if [ -n "$battery_percent" ]; then
-        if [ "$battery_percent" -lt "$low" ]; then
+        if [ "$battery_percent" = "20" ]; then
             if [ ! -f "$DIR/.low" ]; then
                 touch $DIR/.low
                 notifylow
@@ -110,7 +119,7 @@ while true; do
             fi
         fi
 
-        if [ "$battery_percent" = "$low" ]; then
+        if [ "$battery_percent" = "21" ]; then
             unlow
         fi
     
